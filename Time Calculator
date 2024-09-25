@@ -1,0 +1,80 @@
+def add_time(start, add, weekday = None):
+
+        days = 0
+        start = (9 - len(start)-1)*'0' + start
+        hours1 = int(start[0:2])
+        minutes1 = int(start[3:5])
+        am_pm = str(start[6:8])
+
+        add = (8 - len(add)-2)*'0' + add
+        hours2 = int(add [0:3])
+        minutes2 = int(add [4:6])
+  
+        hours3 = hours1 + hours2
+        minutes3 = minutes1 + minutes2
+
+        if minutes3 >= 60:
+            minutes3 = minutes3 - 60
+            hours3 = hours3 + 1            
+
+        if hours3 > 24:
+            days = ((hours1+hours3) // 23)
+            hours3 = (hours3 % 24)
+        
+
+        if am_pm == 'AM' and hours3 >= 12:
+            am_pm = 'PM'
+            hours3 = hours3 % 12
+            
+        if am_pm == 'PM' and hours3 >= 12:
+            am_pm = 'AM'
+            hours3 = hours3 % 12
+
+        if hours3 == 0:
+            hours3 = hours3 + 12
+
+            
+
+
+        if minutes3 < 10:
+            minutes3 = ('0')+str(minutes3)
+
+        if days < 1:
+           time = (f'{hours3}:{minutes3} {am_pm}')
+
+        if (hours1 + hours2) > 12 and am_pm == 'AM':
+            time = (f'{hours3}:{minutes3} {am_pm} (next day)')
+        if days == 1:
+            time = (f'{hours3}:{minutes3} {am_pm} (next day)')
+        if days > 1:
+            time = (f'{hours3}:{minutes3} {am_pm} ({days} days later)')
+    
+        if weekday:
+            weekdays = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+
+
+            
+            weekday = weekday.lower()
+            day_values = {
+            'monday': 0,
+            'tuesday': 1,
+            'wednesday': 2,
+            'thursday': 3,
+            'friday': 4,
+            'saturday': 5,
+            'sunday': 6,
+            }
+            starting_day = (day_values[weekday])
+            
+            s = weekdays[(days+starting_day)%7]
+
+            if days < 1:
+                time = (f'{hours3}:{minutes3} {am_pm}, {s}')
+
+            if days == 1:
+               time = (f'{hours3}:{minutes3} {am_pm}, {s} (next day)')
+            if days > 1:
+                time = (f'{hours3}:{minutes3} {am_pm}, {s} ({days} days later)')
+            
+        print  (time)
+        return (time)
